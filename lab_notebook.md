@@ -65,7 +65,6 @@ import bioinfo
 def get_args():
     parser = argparse.ArgumentParser(description="Program to modify file name")
     parser.add_argument("-f", "--file_name", help="Desired filename", type=str)
-    parser.add_argument("-r", "--read_number", help="Read number of file", type=int)
     return parser.parse_args()
 
 args = get_args()
@@ -110,14 +109,14 @@ plt.bar(x, y, color="cornflowerblue")
 plt.title("Mean Quality Score at Each Position")
 plt.xlabel("Position Number")
 plt.ylabel("Quality Score")
-plt.savefig(f'dist_R{args.read_number}.png')
+plt.savefig(f'')
 ```
 
 ### [08-01-2026]
 
-Wrote a bash script, `dist.sh`, to run `dist_per_n.py`. Ran into some issues with the input FASTQ files being zipped, after some research, I found I needed to `import gzip`, use `with gzip.open` instead of `with open`, and use "rt" instead of just "r" to be able to read the file as text and not bits.
+Wrote a bash script, `dist.sh`, to run `dist_per_n.py`. Ran into some issues with the input FASTQ files being zipped, after some research, I found I needed to `import gzip`, use `with gzip.open` instead of `with open`, and use "rt" instead of just "r" to be able to read the file as text and not bits. I also realized I would need separate scripts for the barcodes and the biological reads since the barcodes are only 8 nt long, I changed the plot colors for these to distinguish the plots more (cornflower blue for bio reads and light coral for barcodes). I also added an argument to argparse to be able to create better output png titles and plot titles.
 
-Updated `dist_per_n.py`
+`bioreads_dist.py`
 ```
 #!/bin/bash/env python
 
@@ -171,15 +170,74 @@ x = range(101)
 y = dist_list
 
 plt.bar(x, y, color="cornflowerblue")
-plt.title("Mean Quality Score at Each Position")
+plt.title(f"Mean Quality Score at Each Position - R{args.read_number}")
 plt.xlabel("Position Number")
 plt.ylabel("Quality Score")
-plt.savefig(f'dist_R{args.read_number}.png')
+plt.savefig(f'R{args.read_number}_dist.png')
+```
+`barcodes_dist.py`
+```
+#!/bin/bash/env python
+
+import matplotlib.pyplot as plt
+import argparse
+import bioinfo
+import gzip
+
+def get_args():
+    parser = argparse.ArgumentParser(description="Program to modify file name")
+    parser.add_argument("-f", "--file_name", help="Desired filename", type=str)
+    parser.add_argument("-r", "--read_number", help="Read number of file", type=int)
+    return parser.parse_args()
+
+args = get_args()
+
+
+def init_list(lst: list, value: float=0.0) -> list:
+    '''This function takes an empty list and will populate it with
+    the value passed in "value". If no value is passed, initializes list
+    with 8 values of 0.0.'''
+    while len(lst) < 8:
+        lst.append(value)
+    return lst
+        
+dist_list: list = []
+dist_list = init_list(dist_list)
+
+def populate_list(file: str) -> tuple[list, int]:
+    """This function takes a FASTQ file, counts the number of lines, and filters for the quality score line. All of the values at index i 
+    in each quality score line are then summed and added to an empty list."""
+    sum_list = init_list([])      #create list with 101 zeros
+    with gzip.open(file, "rt") as fh:
+        phred_letter=0      #initialize phred letter to start at character zero in line
+        num_lines=0         #initialize line counter
+        for line in fh:     #iterate through the lines in the fastq file
+            line = line.strip()      #strips whitespace
+            num_lines+=1             #add one to line counter
+            if num_lines%4 == 0:     #pull out quality score lines
+                for index, phred_letter in enumerate(line):      #iterate through the character(phred letter) at index i in each qual score line
+                    sum_list[index] += bioinfo.convert_phred(phred_letter)      #at index i in the list of zeros, add the converted numerical phred value
+    return sum_list, num_lines       #return the list of summed phred value scores at each index and the total number of lines in the fastq file
+
+dist_list, num_lines = populate_list(args.file_name)
+
+for index, total in enumerate(dist_list):      #iterate through the sums(total) in the numbered my_list
+    mean= total/(num_lines/4)      #define mean as the total divided by the total number of lines divided by 4(accounting for fastq file record length)
+    dist_list[index] = mean          #set the newfound mean as the value at that index in my_list
+
+x = range(8)
+y = dist_list
+
+plt.bar(x, y, color="lightcoral")
+plt.title(f"Mean Quality Score at Each Position - R{args.read_number}")
+plt.xlabel("Position Number")
+plt.ylabel("Quality Score")
+plt.savefig(f'R{args.read_number}_dist.png')
 ```
 
 **Scripts run:**
 
-`dist_R1.sh`
+`R1_dist.sh`
 ```
 #!/bin/bash
 
@@ -197,7 +255,7 @@ R4=$DATA/1294_S1_L008_R4_001.fastq.gz
 
 /usr/bin/time -v python dist_per_n.py -f $R1 -r 1
 ```
-`dist_R2.sh`
+`R2_dist.sh`
 ```
 #!/bin/bash
 
@@ -215,7 +273,7 @@ R4=$DATA/1294_S1_L008_R4_001.fastq.gz
 
 /usr/bin/time -v python dist_per_n.py -f $R2 -r 2
 ```
-`dist_R3.sh`
+`R3_dist.sh`
 ```
 #!/bin/bash
 
@@ -233,7 +291,7 @@ R4=$DATA/1294_S1_L008_R4_001.fastq.gz
 
 /usr/bin/time -v python dist_per_n.py -f $R3 -r 3
 ```
-`dist_R4.sh`
+`R4_dist.sh`
 ```
 #!/bin/bash
 
@@ -254,21 +312,21 @@ R4=$DATA/1294_S1_L008_R4_001.fastq.gz
 
 **Commands run:**
 ```bash
-$ sbatch dist_R1.sh --output=
+$ sbatch R1_dist.sh --output=
 ```
 ```bash
-$ sbatch dist_R2.sh --output=
+$ sbatch R2_dist.sh --output=
 ```
 ```bash
-$ sbatch dist_R3.sh --output=
+$ sbatch R3_dist.sh --output=
 ```
 ```bash
-$ sbatch dist_R4.sh --output=
+$ sbatch R4_dist.sh --output=
 ```
 
 **Job resource usage (`/usr/bin/time -v` summary from Talapas):**
 
-`dist_R1.sh`
+`R1_dist.sh`
 ```
 Command being timed: 
 Elapsed (wall clock) time (h:mm:ss or m:ss):
@@ -276,7 +334,7 @@ Maximum resident set size (kbytes):
 Percent of CPU this job got:
 Exit status:
 ```
-`dist_R2.sh` 
+`R2_dist.sh` 
 ```
 Command being timed: 
 Elapsed (wall clock) time (h:mm:ss or m:ss):
@@ -284,7 +342,7 @@ Maximum resident set size (kbytes):
 Percent of CPU this job got:
 Exit status:
 ```
-`dist_R3.sh` 
+`R3_dist.sh` 
 ```
 Command being timed: 
 Elapsed (wall clock) time (h:mm:ss or m:ss):
@@ -292,7 +350,7 @@ Maximum resident set size (kbytes):
 Percent of CPU this job got:
 Exit status:
 ```
-`dist_R4.sh` 
+`R4_dist.sh` 
 ```
 Command being timed: 
 Elapsed (wall clock) time (h:mm:ss or m:ss):
