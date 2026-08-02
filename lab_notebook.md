@@ -116,6 +116,9 @@ plt.savefig(f'')
 
 Wrote a bash script, `dist.sh`, to run `dist_per_n.py`. Ran into some issues with the input FASTQ files being zipped, after some research, I found I needed to `import gzip`, use `with gzip.open` instead of `with open`, and use "rt" instead of just "r" to be able to read the file as text and not bits. I also realized I would need separate scripts for the barcodes and the biological reads since the barcodes are only 8 nt long, I changed the plot colors for these to distinguish the plots more (cornflower blue for bio reads and light coral for barcodes). I also added an argument to argparse to be able to create better output png titles and plot titles.
 
+To run the scripts simultaneously I ended up creating four different scripts for the four read files: `R1_dist.sh`, `R2_dist.sh`, `R3_dist.sh`, and `R4_dist.sh`
+Wrapped `barcodes_dist.py` for R2 and R3 bash scripts and `bioreads_dist.py` for R1 and R4 bash scripts.
+
 `bioreads_dist.py`
 ```
 #!/bin/bash/env python
