@@ -318,10 +318,10 @@ R4=$DATA/1294_S1_L008_R4_001.fastq.gz
 $ sbatch R1_dist.sh --output=
 ```
 ```bash
-$ sbatch R2_dist.sh --output=
+$ sbatch R2_dist.sh --output=Assignment-the-first/slurm-45933485.out
 ```
 ```bash
-$ sbatch R3_dist.sh --output=
+$ sbatch R3_dist.sh --output=Assignment-the-first/slurm-45933486.out
 ```
 ```bash
 $ sbatch R4_dist.sh --output=
@@ -339,19 +339,19 @@ Exit status:
 ```
 `R2_dist.sh` 
 ```
-Command being timed: 
-Elapsed (wall clock) time (h:mm:ss or m:ss):
-Maximum resident set size (kbytes):
-Percent of CPU this job got:
-Exit status:
+Command being timed: "python barcodes_dist.py -f /projects/bgmp/shared/2017_sequencing//1294_S1_L008_R2_001.fastq.gz -r 2"
+Elapsed (wall clock) time (h:mm:ss or m:ss): 6:29.76
+Maximum resident set size (kbytes): 70548
+Percent of CPU this job got: 99%
+Exit status: 0
 ```
 `R3_dist.sh` 
 ```
-Command being timed: 
-Elapsed (wall clock) time (h:mm:ss or m:ss):
-Maximum resident set size (kbytes):
-Percent of CPU this job got:
-Exit status:
+Command being timed: "python barcodes_dist.py -f /projects/bgmp/shared/2017_sequencing//1294_S1_L008_R3_001.fastq.gz -r 3"
+Elapsed (wall clock) time (h:mm:ss or m:ss): 6:30.68
+Maximum resident set size (kbytes): 70592
+Percent of CPU this job got: 99%
+Exit status: 0
 ```
 `R4_dist.sh` 
 ```
