@@ -177,7 +177,9 @@ plt.ylabel("Quality Score")
 plt.savefig(f'dist_R{args.read_number}.png')
 ```
 
-`dist.sh` -- modified -f and -r flag for each file
+**Scripts run:**
+
+`dist_R1.sh`
 ```
 #!/bin/bash
 
@@ -195,15 +197,78 @@ R4=$DATA/1294_S1_L008_R4_001.fastq.gz
 
 /usr/bin/time -v python dist_per_n.py -f $R1 -r 1
 ```
+`dist_R2.sh`
+```
+#!/bin/bash
+
+#SBATCH --account=bgmp
+#SBATCH --partition=bgmp
+#SBATCH --cpus-per-task=8
+#SBATCH --mem=16GB
+#SBATCH --job-name=dist_R2
+
+DATA=/projects/bgmp/shared/2017_sequencing/
+R1=$DATA/1294_S1_L008_R1_001.fastq.gz
+R2=$DATA/1294_S1_L008_R2_001.fastq.gz
+R3=$DATA/1294_S1_L008_R3_001.fastq.gz
+R4=$DATA/1294_S1_L008_R4_001.fastq.gz
+
+/usr/bin/time -v python dist_per_n.py -f $R2 -r 2
+```
+`dist_R3.sh`
+```
+#!/bin/bash
+
+#SBATCH --account=bgmp
+#SBATCH --partition=bgmp
+#SBATCH --cpus-per-task=8
+#SBATCH --mem=16GB
+#SBATCH --job-name=dist_R3
+
+DATA=/projects/bgmp/shared/2017_sequencing/
+R1=$DATA/1294_S1_L008_R1_001.fastq.gz
+R2=$DATA/1294_S1_L008_R2_001.fastq.gz
+R3=$DATA/1294_S1_L008_R3_001.fastq.gz
+R4=$DATA/1294_S1_L008_R4_001.fastq.gz
+
+/usr/bin/time -v python dist_per_n.py -f $R3 -r 3
+```
+`dist_R4.sh`
+```
+#!/bin/bash
+
+#SBATCH --account=bgmp
+#SBATCH --partition=bgmp
+#SBATCH --cpus-per-task=8
+#SBATCH --mem=16GB
+#SBATCH --job-name=dist_R4
+
+DATA=/projects/bgmp/shared/2017_sequencing/
+R1=$DATA/1294_S1_L008_R1_001.fastq.gz
+R2=$DATA/1294_S1_L008_R2_001.fastq.gz
+R3=$DATA/1294_S1_L008_R3_001.fastq.gz
+R4=$DATA/1294_S1_L008_R4_001.fastq.gz
+
+/usr/bin/time -v python dist_per_n.py -f $R4 -r 4
+```
 
 **Commands run:**
 ```bash
-$ sbatch dist.sh
+$ sbatch dist_R1.sh --output=
+```
+```bash
+$ sbatch dist_R2.sh --output=
+```
+```bash
+$ sbatch dist_R3.sh --output=
+```
+```bash
+$ sbatch dist_R4.sh --output=
 ```
 
 **Job resource usage (`/usr/bin/time -v` summary from Talapas):**
 
-`dist.sh` -- dist_R1
+`dist_R1.sh`
 ```
 Command being timed: 
 Elapsed (wall clock) time (h:mm:ss or m:ss):
@@ -211,7 +276,7 @@ Maximum resident set size (kbytes):
 Percent of CPU this job got:
 Exit status:
 ```
-`dist.sh` -- dist_R2
+`dist_R2.sh` 
 ```
 Command being timed: 
 Elapsed (wall clock) time (h:mm:ss or m:ss):
@@ -219,7 +284,7 @@ Maximum resident set size (kbytes):
 Percent of CPU this job got:
 Exit status:
 ```
-`dist.sh` -- dist_R3
+`dist_R3.sh` 
 ```
 Command being timed: 
 Elapsed (wall clock) time (h:mm:ss or m:ss):
@@ -227,7 +292,7 @@ Maximum resident set size (kbytes):
 Percent of CPU this job got:
 Exit status:
 ```
-`dist.sh` -- dist_R4
+`dist_R4.sh` 
 ```
 Command being timed: 
 Elapsed (wall clock) time (h:mm:ss or m:ss):
