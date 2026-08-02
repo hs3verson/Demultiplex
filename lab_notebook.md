@@ -106,7 +106,7 @@ for index, total in enumerate(dist_list):      #iterate through the sums(total) 
 x = range(101)
 y = dist_list
 
-plt.scatter(x, y, color="m")
+plt.bar(x, y, color="cornflowerblue")
 plt.title("Mean Quality Score at Each Position")
 plt.xlabel("Position Number")
 plt.ylabel("Quality Score")
@@ -170,7 +170,7 @@ for index, total in enumerate(dist_list):      #iterate through the sums(total) 
 x = range(101)
 y = dist_list
 
-plt.scatter(x, y, color="m")
+plt.bar(x, y, color="cornflowerblue")
 plt.title("Mean Quality Score at Each Position")
 plt.xlabel("Position Number")
 plt.ylabel("Quality Score")
