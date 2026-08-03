@@ -1,0 +1,56 @@
+@header1  [matched - B1/B1]
+AAGCCCAATAAACCACTCTG
++
+IIIIIIIIIIIIIIIIIIII
+@header2  [matched - A5/A5]
+GGCAACGACATGTGCGGCGA
++
+IIIIIIIIIIIIIIIIIIII
+@header3  [matched - C1/C1]
+TCGCCGTTGCCTAAACCTAT
++
+IIIIIIIIIIIIIIIIIIII
+@header4  [hopped - B1(R2)/A5(R3)]
+CAGTAAGGCACAATACCTCG
++
+IIIIIIIIIIIIIIIIIIII
+@header5  [hopped - C7(R2)/B2(R3)]
+AAGACGTCCTCTTCAATGTT
++
+IIIIIIIIIIIIIIIIIIII
+@header6  [hopped - A1(R2)/C3(R3)]
+AAACCTTTCTACTATGTGTT
++
+IIIIIIIIIIIIIIIIIIII
+@header7  [unknown - N in R2]
+AATGGCGCGTCGTGAATAAC
++
+IIIIIIIIIIIIIIIIIIII
+@header8  [unknown - N in R3]
+CGCGTGAATGAAGCGCTTAA
++
+IIIIIIIIIIIIIIIIIIII
+@header9  [unknown - R2 not in barcodes_set]
+CTACGTCGCATATCCTGGCC
++
+IIIIIIIIIIIIIIIIIIII
+@header10  [unknown - R3 not in barcodes_set]
+TATCGATACGTAGGAGGTGT
++
+IIIIIIIIIIIIIIIIIIII
+@header11  [unknown - avg quality score well below Q20 cutoff]
+AGGACGCCCAACTATTCTTT
++
+IIIIIIIIIIIIIIIIIIII
+@header12  [unknown - R2 known(A2), R3 not in barcodes_set]
+TGCGTCGTAGCGGGACCCTC
++
+IIIIIIIIIIIIIIIIIIII
+@header13  [matched - avg quality score exactly Q20 (should pass cutoff) - B3/B3]
+TCGTTATGTCTCATAATCTC
++
+IIIIIIIIIIIIIIIIIIII
+@header14  [unknown - avg quality barely below Q20 (19.875, should fail cutoff) - C4/C4]
+ACCACCCTACTGGCACGAAG
++
+IIIIIIIIIIIIIIIIIIII

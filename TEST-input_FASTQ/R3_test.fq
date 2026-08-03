@@ -1,0 +1,56 @@
+@header1  [matched - B1/B1]
+TACGCTAC
++
+IIIIIIII
+@header2  [matched - A5/A5]
+ATCGATCG
++
+IIIIIIII
+@header3  [matched - C1/C1]
+CCTTGATC
++
+IIIIIIII
+@header4  [hopped - B1(R2)/A5(R3)]
+ATCGATCG
++
+IIIIIIII
+@header5  [hopped - C7(R2)/B2(R3)]
+AGAGTAGC
++
+IIIIIIII
+@header6  [hopped - A1(R2)/C3(R3)]
+GATTACCG
++
+IIIIIIII
+@header7  [unknown - N in R2]
+ATCGATCG
++
+IIIIIIII
+@header8  [unknown - N in R3]
+AACAGCGN
++
+IIIIIIII
+@header9  [unknown - R2 not in barcodes_set]
+CATGGCTA
++
+IIIIIIII
+@header10  [unknown - R3 not in barcodes_set]
+AAAAAAAA
++
+IIIIIIII
+@header11  [unknown - avg quality score well below Q20 cutoff]
+TCGCTGTT
++
+IIIIIIII
+@header12  [unknown - R2 known(A2), R3 not in barcodes_set]
+GGGGGGGG
++
+IIIIIIII
+@header13  [matched - avg quality score exactly Q20 (should pass cutoff) - B3/B3]
+ATCCAGAG
++
+IIIIIIII
+@header14  [unknown - avg quality barely below Q20 (19.875, should fail cutoff) - C4/C4]
+ATCCGGTA
++
+IIIIIIII
