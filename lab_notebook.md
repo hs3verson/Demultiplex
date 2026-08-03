@@ -315,7 +315,7 @@ R4=$DATA/1294_S1_L008_R4_001.fastq.gz
 
 **Commands run:**
 ```bash
-$ sbatch R1_dist.sh --output=
+$ sbatch R1_dist.sh --output=Assignment-the-first/slurm-45933513.out
 ```
 ```bash
 $ sbatch R2_dist.sh --output=Assignment-the-first/slurm-45933485.out
@@ -324,18 +324,18 @@ $ sbatch R2_dist.sh --output=Assignment-the-first/slurm-45933485.out
 $ sbatch R3_dist.sh --output=Assignment-the-first/slurm-45933486.out
 ```
 ```bash
-$ sbatch R4_dist.sh --output=
+$ sbatch R4_dist.sh --output=Assignment-the-first/slurm-45933514.out
 ```
 
 **Job resource usage (`/usr/bin/time -v` summary from Talapas):**
 
 `R1_dist.sh`
 ```
-Command being timed: 
-Elapsed (wall clock) time (h:mm:ss or m:ss):
-Maximum resident set size (kbytes):
-Percent of CPU this job got:
-Exit status:
+Command being timed: "python bioreads_dist.py -f /projects/bgmp/shared/2017_sequencing//1294_S1_L008_R1_001.fastq.gz -r 1"
+Elapsed (wall clock) time (h:mm:ss or m:ss): 41:00.34
+Maximum resident set size (kbytes): 71468
+Percent of CPU this job got: 99%
+Exit status: 0
 ```
 `R2_dist.sh` 
 ```
@@ -355,9 +355,9 @@ Exit status: 0
 ```
 `R4_dist.sh` 
 ```
-Command being timed: 
-Elapsed (wall clock) time (h:mm:ss or m:ss):
-Maximum resident set size (kbytes):
-Percent of CPU this job got:
-Exit status:
+Command being timed: "python bioreads_dist.py -f /projects/bgmp/shared/2017_sequencing//1294_S1_L008_R4_001.fastq.gz -r 4"
+Elapsed (wall clock) time (h:mm:ss or m:ss): 41:15.45
+Maximum resident set size (kbytes): 74596
+Percent of CPU this job got: 99%
+Exit status: 0
 ```
