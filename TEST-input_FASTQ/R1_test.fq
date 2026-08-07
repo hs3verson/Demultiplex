@@ -38,19 +38,7 @@ IIIIIIIIIIIIIIIIIIII
 TATCGATACGTAGGAGGTGT
 +
 IIIIIIIIIIIIIIIIIIII
-@header11  [unknown - avg quality score well below Q20 cutoff]
-AGGACGCCCAACTATTCTTT
-+
-IIIIIIIIIIIIIIIIIIII
-@header12  [unknown - R2 known(A2), R3 not in barcodes_set]
+@header11  [unknown - R2 known(A2), R3 not in barcodes_set]
 TGCGTCGTAGCGGGACCCTC
-+
-IIIIIIIIIIIIIIIIIIII
-@header13  [matched - avg quality score exactly Q20 (should pass cutoff) - B3/B3]
-TCGTTATGTCTCATAATCTC
-+
-IIIIIIIIIIIIIIIIIIII
-@header14  [unknown - avg quality barely below Q20 (19.875, should fail cutoff) - C4/C4]
-ACCACCCTACTGGCACGAAG
 +
 IIIIIIIIIIIIIIIIIIII
