@@ -15,6 +15,7 @@ def get_args():
 args = get_args()
 
 def read_record(fastq):
+    '''Takes a fastq file and saves each record as a list, with each line as a separate item in the list'''
     record = []
     for i in range(4):
         record.append(fastq.readline().strip())
@@ -55,26 +56,31 @@ hopped_R2 = open(f"{args.file_path}/hopped_R2.fq", "w")
 
 
 def demux(fastq_R1, fastq_R2, fastq_R3, fastq_R4):
+    '''Takes four fastq files: Read 1, Index 1, Index 2, and Read 2, sorts the reads to matched, hopped, and unknown files based 
+    on the indexes, and prints out counts and percentages'''
     # initialize matched and hopped ditionaries to keep counts
     matched_dict = {}
     hopped_dict = {}
     # initialize counter for records sent to unknown
     unk_count = 0
     with gzip.open(fastq_R1, "rt") as fwdfile, gzip.open(fastq_R4, "rt") as revfile, gzip.open(fastq_R2, "rt") as index1, gzip.open(fastq_R3, "rt") as index2:
-        record_count = 0
+        record_count = 0                  # initialize record count
         while True:
+            # create lists using read record fxn for each file
             R1 = read_record(fwdfile)
             R4 = read_record(revfile)
             R2 = read_record(index1)
             R3 = read_record(index2)
-            fwd_bc = R2[1]
-            rev_bc = rev_comp(R3[1])
-            if R1[3] == '':
-                break
+            fwd_bc = R2[1]                # define fwd_bc as the sequence line from the R2 record list
+            rev_bc = rev_comp(R3[1])      # define rev_bc as the reverse complement of the sequence line from the R3 record list
+            if R1[0] == '':
+                break                     # break out of loop once R1 is empty 
+            # sort barcodes not in set (ones with N's or otherwise) to unknown
             if (fwd_bc not in barcodes_set) or (rev_bc not in barcodes_set):
                 unk_count += 1
                 unk_R1.write(f"{R1[0]} {fwd_bc}-{rev_bc}\n{R1[1]}\n{R1[2]}\n{R1[3]}\n")
                 unk_R2.write(f"{R4[0]} {fwd_bc}-{rev_bc}\n{R4[1]}\n{R4[2]}\n{R4[3]}\n")
+            # sort matched barcodes to matched
             elif fwd_bc == rev_bc:
                 bc_pair = f'{fwd_bc}-{rev_bc}'
                 if bc_pair not in matched_dict:
@@ -83,6 +89,7 @@ def demux(fastq_R1, fastq_R2, fastq_R3, fastq_R4):
                     matched_dict[bc_pair] += 1
                 files_dict[f'{fwd_bc}'][0].write(f"{R1[0]} {fwd_bc}-{rev_bc}\n{R1[1]}\n{R1[2]}\n{R1[3]}\n")
                 files_dict[f'{fwd_bc}'][1].write(f"{R4[0]} {fwd_bc}-{rev_bc}\n{R4[1]}\n{R4[2]}\n{R4[3]}\n")
+            # sort hopped barcodes to hopped
             else:
                 bc_pair = f'{fwd_bc}-{rev_bc}'
                 if bc_pair not in hopped_dict:
@@ -91,14 +98,17 @@ def demux(fastq_R1, fastq_R2, fastq_R3, fastq_R4):
                     hopped_dict[bc_pair] += 1
                 hopped_R1.write(f"{R1[0]} {fwd_bc}-{rev_bc}\n{R1[1]}\n{R1[2]}\n{R1[3]}\n")
                 hopped_R2.write(f"{R4[0]} {fwd_bc}-{rev_bc}\n{R4[1]}\n{R4[2]}\n{R4[3]}\n")
-            record_count += 1
+            record_count += 1      # increment record count by 1
+    # loop over matched dictionary to print counts and percentages for each of the 24 barcodes
     for bc_pair in matched_dict:
         percentage = round(((matched_dict[bc_pair])/record_count)*100, 2)
         print(f'{bc_pair}: total count = {matched_dict[bc_pair]}, percentage = {percentage}%')
     print('\n')
+    # loop over hopped dictionary to print counts and percentages for each hopped combination seen
     for bc_pair in hopped_dict:
         percentage = round(((hopped_dict[bc_pair])/record_count)*100, 2)
         print(f'{bc_pair}: total count = {hopped_dict[bc_pair]}, percentage = {percentage}%')
+    # print the number of reads sent to the unknown file
     print(f'\nThe number of unknown reads = {unk_count}')
 
 
