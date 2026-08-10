@@ -14,7 +14,7 @@ def get_args():
 
 args = get_args()
 
-def read_record(fastq):
+def read_record(fastq) -> list:
     '''Takes a fastq file and saves each record as a list, with each line as a separate item in the list'''
     record = []
     for i in range(4):
