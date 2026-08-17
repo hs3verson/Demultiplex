@@ -367,6 +367,7 @@ Exit status: 0
 Wrote a python script, `Assignment-the-third/demux.py`, to demultiplex the reads based on the logic from my pseudocode. Created a bash wrapper, `Assignment-the-third/demux.sh`, to run the python script.
 
 **Scripts run:**
+
 `demux.py`
 ```
 #!/usr/bin/env python
